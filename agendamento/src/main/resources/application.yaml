@@ -1,3 +1,8 @@
 spring:
   application:
     name: agendamento
+  datasource:
+    url: "jdbc:postgresql://localhost/agendamento"
+    username: "postgres"
+    password: "1234"
+    pool-size: 30
