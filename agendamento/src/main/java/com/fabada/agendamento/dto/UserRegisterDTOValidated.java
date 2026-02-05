@@ -1,5 +1,6 @@
 package com.fabada.agendamento.dto;
 
+import com.fabada.agendamento.enums.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import com.fabada.agendamento.model.User;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,6 @@ public record UserRegisterDTOValidated(
         ) {
 
         public User mapToUser(){
-                return new User(username, password, role);
+                return new User(username, password, UserRole.valueOf(role));
         }
 }

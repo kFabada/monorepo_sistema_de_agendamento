@@ -1,4 +1,6 @@
 package com.fabada.agendamento.dto;
 
-public record UserResponseDTO(Long id, String username, String role) {
+import com.fabada.agendamento.enums.UserRole;
+
+public record UserResponseDTO(Long id, String username, UserRole role) {
 }
