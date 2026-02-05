@@ -20,6 +20,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(nullable = false, length = 255, unique = true)
+    private String email;
+    @Column(nullable = false, length = 255, unique = true)
     private String username;
     @Column(nullable = false, length = 255)
     private String password;
@@ -33,9 +35,10 @@ public class User {
     @CurrentTimestamp
     private LocalDateTime lastUpdate;
 
-    public User(String username, String password, UserRole role) {
+    public User(String username, String email, String password, UserRole role) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.email = email;
     }
 }

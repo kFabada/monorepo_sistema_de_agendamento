@@ -2,7 +2,6 @@ package com.fabada.agendamento.validated;
 
 import com.fabada.agendamento.execption.UsernameExistException;
 import com.fabada.agendamento.model.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
