@@ -2,11 +2,9 @@ package com.fabada.agendamento.model;
 
 import com.fabada.agendamento.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CurrentTimestamp;
+import org.springframework.context.annotation.Primary;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -34,6 +33,7 @@ public class User {
     @Column(nullable = false)
     @CurrentTimestamp
     private LocalDateTime lastUpdate;
+
 
     public User(String username, String email, String password, UserRole role) {
         this.username = username;

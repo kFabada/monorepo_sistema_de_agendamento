@@ -3,10 +3,11 @@ package com.fabada.agendamento.validated;
 import com.fabada.agendamento.execption.UsernameNotFoundException;
 import com.fabada.agendamento.service.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
-@Service
+@Component
 public class UsernameExistValidated {
     @Autowired
     private UserServiceInterface userService;

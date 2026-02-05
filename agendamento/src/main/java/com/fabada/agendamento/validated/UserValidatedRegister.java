@@ -3,9 +3,9 @@ package com.fabada.agendamento.validated;
 import com.fabada.agendamento.execption.EmailExistException;
 import com.fabada.agendamento.execption.UsernameExistException;
 import com.fabada.agendamento.model.User;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class UserValidatedRegister {
     private final UsernameExistValidated usernameExistValidated;
     private final EmailExistValidated emailExistValidated;

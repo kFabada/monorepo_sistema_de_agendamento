@@ -2,7 +2,9 @@ package com.fabada.agendamento.validated;
 
 import com.fabada.agendamento.execption.EmailNotFoundException;
 import com.fabada.agendamento.service.UserServiceInterface;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmailExistValidated {
     private final UserServiceInterface userService;
 

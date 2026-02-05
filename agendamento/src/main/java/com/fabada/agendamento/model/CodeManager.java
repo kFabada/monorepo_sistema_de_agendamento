@@ -17,10 +17,9 @@ public class CodeManager {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(length = 6)
     private int code;
-    @OneToOne(fetch = FetchType.LAZY)
-    @Column(name = "user_id", nullable = false, unique = true)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User userId;
     private LocalDateTime register;
     @Column(name = "time_valid")
