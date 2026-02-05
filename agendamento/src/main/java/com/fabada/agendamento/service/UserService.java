@@ -5,6 +5,7 @@ import com.fabada.agendamento.dto.UpdateRoleDTO;
 import com.fabada.agendamento.enums.UserRole;
 import com.fabada.agendamento.execption.CodeNotFoundException;
 import com.fabada.agendamento.execption.CodeOrUsernameInvalid;
+import com.fabada.agendamento.execption.EmailNotFoundException;
 import com.fabada.agendamento.execption.UsernameNotFoundException;
 import com.fabada.agendamento.model.CodeManager;
 import com.fabada.agendamento.model.User;
@@ -12,7 +13,6 @@ import com.fabada.agendamento.repository.CodeRepository;
 import com.fabada.agendamento.repository.UserRepository;
 import com.fabada.agendamento.utils.PasswordEncoderInterface;
 import com.fabada.agendamento.validated.UserRoleValidated;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,10 +30,17 @@ public class UserService implements UserServiceInterface{
     }
 
     @Override
-    public User getUserbyUsername(String username) {
+    public User userbyUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if(user.isEmpty()) throw new UsernameNotFoundException("username not found");
         return user.get();
+    }
+
+    @Override
+    public User userByEmail(String email) {
+       Optional<User> user = userRepository.findByEmail(email);
+       if(user.isEmpty()) throw new EmailNotFoundException("email not found");
+       return user.get();
     }
 
     @Override
@@ -55,7 +62,7 @@ public class UserService implements UserServiceInterface{
 
     @Override
     public void updateRole(UpdateRoleDTO updateRoleDTO) {
-      User user = this.getUserbyUsername(updateRoleDTO.username());
+      User user = this.userbyUsername(updateRoleDTO.username());
       UserRoleValidated userRoleValidated = new UserRoleValidated(updateRoleDTO.role());
       userRoleValidated.verify();
 

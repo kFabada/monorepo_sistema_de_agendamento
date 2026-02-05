@@ -1,8 +1,6 @@
 package com.fabada.agendamento.error;
 
-import com.fabada.agendamento.execption.UserRoleException;
-import com.fabada.agendamento.execption.UsernameExistException;
-import com.fabada.agendamento.execption.UsernameNotFoundException;
+import com.fabada.agendamento.execption.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,4 +28,18 @@ public class UserError {
     public @ResponseBody MessageErro handleUsernameExistException(UsernameExistException e){
         return new MessageErro(e.getMessage());
     }
+
+    @ExceptionHandler(value =  EmailNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public @ResponseBody MessageErro handleEmailNotFoundException(EmailNotFoundException e){
+        return new MessageErro(e.getMessage());
+    }
+
+    @ExceptionHandler(value =  EmailExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody MessageErro handleEmailExistException(EmailExistException e){
+        return new MessageErro(e.getMessage());
+    }
+
+
 }

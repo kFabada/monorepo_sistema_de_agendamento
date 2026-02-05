@@ -13,7 +13,7 @@ public class UsernameExistValidated {
 
     public boolean verify(String username){
         try{
-            userService.getUserbyUsername(username);
+            userService.userbyUsername(username);
             return true;
         }catch (UsernameNotFoundException e){
             return false;

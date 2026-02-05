@@ -20,13 +20,12 @@ public class AuthorizeHttpRequest {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authRequest -> authRequest
-                                .requestMatchers("/users/registers")
+                                .requestMatchers("/user/register")
                                 .permitAll()
                 )
                 .authorizeHttpRequests(authRequest -> authRequest
                         .anyRequest()
                         .authenticated())
-                //.oauth2ResourceServer(e -> e.jwt(Customizer.withDefaults()))
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }

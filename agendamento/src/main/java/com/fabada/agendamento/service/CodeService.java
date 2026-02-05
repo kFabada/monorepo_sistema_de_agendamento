@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class CodeService implements CodeServiceInterface{
@@ -22,7 +21,7 @@ public class CodeService implements CodeServiceInterface{
 
     @Override
     public void gererateCode(String username) {
-       User user = userService.getUserbyUsername(username);
+       User user = userService.userbyUsername(username);
        Optional<CodeManager> optionalCode = codeRepository.findByUserId(user.getId());
        CodeManager codeManager = new CodeManager();
 
