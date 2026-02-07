@@ -3,8 +3,6 @@ package com.fabada.agendamento.service;
 import com.fabada.agendamento.dto.UpdatePasswordDTO;
 import com.fabada.agendamento.dto.UpdateRoleDTO;
 import com.fabada.agendamento.enums.UserRole;
-import com.fabada.agendamento.execption.CodeNotFoundException;
-import com.fabada.agendamento.execption.CodeOrUsernameInvalid;
 import com.fabada.agendamento.execption.EmailNotFoundException;
 import com.fabada.agendamento.execption.UsernameNotFoundException;
 import com.fabada.agendamento.model.CodeManager;
@@ -12,7 +10,10 @@ import com.fabada.agendamento.model.User;
 import com.fabada.agendamento.repository.CodeRepository;
 import com.fabada.agendamento.repository.UserRepository;
 import com.fabada.agendamento.utils.PasswordEncoderInterface;
-import com.fabada.agendamento.validated.UserRoleValidated;
+import com.fabada.agendamento.validated.UserRoleValidatedInferface;
+import com.fabada.agendamento.validated.UserUpdatePasswordValidatedInterface;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,25 +23,37 @@ public class UserService implements UserServiceInterface{
     private final UserRepository userRepository;
     private final CodeRepository codeRepository;
     private final PasswordEncoderInterface passwordEncoder;
+    private final UserRoleValidatedInferface userRoleValidated;
+    private final UserUpdatePasswordValidatedInterface userUpdatePasswordValidated;
 
-    public UserService(UserRepository userRepository, CodeRepository codeRepository, PasswordEncoderInterface passwordEncoder) {
+    public UserService(UserRepository userRepository, CodeRepository codeRepository, PasswordEncoderInterface passwordEncoder, UserRoleValidatedInferface userRoleValidated, UserUpdatePasswordValidatedInterface userUpdatePasswordValidated) {
         this.userRepository = userRepository;
         this.codeRepository = codeRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userRoleValidated = userRoleValidated;
+        this.userUpdatePasswordValidated = userUpdatePasswordValidated;
     }
 
     @Override
-    public User userbyUsername(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if(user.isEmpty()) throw new UsernameNotFoundException("username not found");
-        return user.get();
+    public User findByUsername(String username) {
+       return userRepository.findByUsername(username)
+               .orElseThrow(() -> new UsernameNotFoundException("username not found"));
     }
 
     @Override
-    public User userByEmail(String email) {
-       Optional<User> user = userRepository.findByEmail(email);
-       if(user.isEmpty()) throw new EmailNotFoundException("email not found");
-       return user.get();
+    public Optional<User> findByOptionalUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<User> findByOptionalEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+       return userRepository.findByEmail(email)
+               .orElseThrow(() ->  new EmailNotFoundException("email not found"));
     }
 
     @Override
@@ -51,22 +64,22 @@ public class UserService implements UserServiceInterface{
     @Override
     public void updatePassword(UpdatePasswordDTO passwordDTO) {
          Optional<CodeManager> codeManager = codeRepository.findByCode(passwordDTO.code());
-
-         if(codeManager.isEmpty()) throw new CodeNotFoundException("code not found");
-         if(!(codeManager.get().getCode() == passwordDTO.code()) && !(codeManager.get().getUserId().getUsername().equals(passwordDTO.username()))) throw new CodeOrUsernameInvalid("code or username invalid");
-
-         User user = codeManager.get().getUserId();
+         User user = userUpdatePasswordValidated.verify(codeManager,passwordDTO);
          user.setPassword(passwordEncoder.encoder(passwordDTO.password()));
          userRepository.save(user);
     }
 
     @Override
     public void updateRole(UpdateRoleDTO updateRoleDTO) {
-      User user = this.userbyUsername(updateRoleDTO.username());
-      UserRoleValidated userRoleValidated = new UserRoleValidated(updateRoleDTO.role());
-      userRoleValidated.verify();
-
+      User user = this.findByUsername(updateRoleDTO.username());
+      userRoleValidated.verify(updateRoleDTO.role());
       user.setRole(UserRole.valueOf(updateRoleDTO.role()));
       userRepository.save(user);
+    }
+
+    @Override
+    public Page<User> getAllPage(Pageable page) {
+        Page<User> users = userRepository.findAll(page);
+        return users;
     }
 }

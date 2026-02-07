@@ -1,6 +1,5 @@
 package com.fabada.agendamento.service;
 
-import ch.qos.logback.core.testUtil.RandomUtil;
 import com.fabada.agendamento.model.CodeManager;
 import com.fabada.agendamento.model.User;
 import com.fabada.agendamento.repository.CodeRepository;
@@ -22,7 +21,7 @@ public class CodeService implements CodeServiceInterface{
 
     @Override
     public void gererateCode(String username) {
-       User user = userService.userbyUsername(username);
+       User user = userService.findByUsername(username);
        Optional<CodeManager> optionalCode = codeRepository.findByUserId(user);
        CodeManager codeManager = new CodeManager();
 

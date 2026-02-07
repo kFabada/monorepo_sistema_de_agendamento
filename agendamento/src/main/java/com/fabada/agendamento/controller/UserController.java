@@ -6,6 +6,7 @@ import com.fabada.agendamento.utils.PasswordEncoderInterface;
 import com.fabada.agendamento.validated.UserValidatedRegister;
 import jakarta.validation.Valid;
 import com.fabada.agendamento.model.User;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class UserController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterDTO userDTOValidated){
        User userMap = userDTOValidated.mapToUser();
 
-       userValidatedRegister.userVerify(userMap);
+       userValidatedRegister.verify(userMap);
        userMap.setPassword(passwordEncoder.encoder(userMap.getPassword()));
 
        User user = userService.save(userMap);
@@ -49,5 +50,11 @@ public class UserController {
     public ResponseEntity<?> updateRole(@Valid @RequestBody UpdateRoleDTO updateRoleDTO){
         userService.updateRole(updateRoleDTO);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get_users")
+    public ResponseEntity<?> getAllPage(){
+
+      return ResponseEntity.ok(userService.getAllPage(PageRequest.of(0, 15)));
     }
 }
