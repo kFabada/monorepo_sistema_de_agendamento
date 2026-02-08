@@ -2,6 +2,7 @@ package com.fabada.agendamento.service;
 
 import com.fabada.agendamento.dto.UpdatePasswordDTO;
 import com.fabada.agendamento.dto.UpdateRoleDTO;
+import com.fabada.agendamento.dto.UserResponsePageDTO;
 import com.fabada.agendamento.enums.UserRole;
 import com.fabada.agendamento.execption.EmailNotFoundException;
 import com.fabada.agendamento.execption.UsernameNotFoundException;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -78,8 +80,30 @@ public class UserService implements UserServiceInterface{
     }
 
     @Override
-    public Page<User> getAllPage(Pageable page) {
-        Page<User> users = userRepository.findAll(page);
-        return users;
+    public Page<UserResponsePageDTO> getAllPage(Pageable page) {
+        return userRepository.findAll(page).map((u) -> new UserResponsePageDTO(
+                        u.getId(),
+                        u.getUsername(),
+                        u.getEmail(),
+                        u.getRole(),
+                        u.getRegister(),
+                        u.getLastUpdate()
+                )
+        );
+    }
+
+    @Override
+    public Page<UserResponsePageDTO> getFilterUser(Long id, String username, String email, UserRole role, LocalDateTime register, LocalDateTime lastUpdate, Pageable page) {
+        var q = userRepository.findFilter(
+                id, username, email, role, register, lastUpdate, page).map((u) -> new UserResponsePageDTO(
+                u.getId(),
+                u.getUsername(),
+                u.getEmail(),
+                u.getRole(),
+                u.getRegister(),
+                u.getLastUpdate()
+        ));
+
+        return q;
     }
 }

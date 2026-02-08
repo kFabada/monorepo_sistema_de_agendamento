@@ -15,7 +15,7 @@ public class UserUpdatePasswordValidated implements UserUpdatePasswordValidatedI
     @Override
     public User verify(Optional<CodeManager> codeManager, UpdatePasswordDTO passwordDTO){
         if(codeManager.isEmpty()) throw new CodeNotFoundException("code not found");
-        if(!(codeManager.get().getCode() == passwordDTO.code()) && !(codeManager.get().getUserId().getUsername().equals(passwordDTO.username())))
+        if(!(codeManager.get().getCode() == passwordDTO.code()) || !(codeManager.get().getUserId().getUsername().equals(passwordDTO.username())))
             throw new CodeOrUsernameInvalid("code or username invalid");
         return codeManager.get().getUserId();
     }
