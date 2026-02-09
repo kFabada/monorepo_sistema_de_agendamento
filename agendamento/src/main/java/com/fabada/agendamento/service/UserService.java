@@ -10,11 +10,13 @@ import com.fabada.agendamento.model.CodeManager;
 import com.fabada.agendamento.model.User;
 import com.fabada.agendamento.repository.CodeRepository;
 import com.fabada.agendamento.repository.UserRepository;
+import com.fabada.agendamento.repository.spec.UserSpec;
 import com.fabada.agendamento.utils.PasswordEncoderInterface;
 import com.fabada.agendamento.validated.UserRoleValidatedInferface;
 import com.fabada.agendamento.validated.UserUpdatePasswordValidatedInterface;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -93,9 +95,19 @@ public class UserService implements UserServiceInterface{
     }
 
     @Override
-    public Page<UserResponsePageDTO> getFilterUser(Long id, String username, String email, UserRole role, LocalDateTime register, LocalDateTime lastUpdate, Pageable page) {
-        var q = userRepository.findFilter(
-                id, username, email, role, register, lastUpdate, page).map((u) -> new UserResponsePageDTO(
+    public Page<UserResponsePageDTO> getFilterUser(
+            Long id, String username, String email, UserRole role, LocalDateTime register, LocalDateTime lastUpdate, Pageable page) {
+
+        Specification<User> s = Specification.where((from, criteriaBuilder) -> criteriaBuilder.conjunction());
+
+        if(id != null) s = s.and(UserSpec.hasId(id));
+        if(username != null)  s = s.and(UserSpec.hasUsername(username));
+        if(email != null) s = s.and(UserSpec.hasEmail(email));
+        if(role != null) s = s.and(UserSpec.hasRole(role));
+        if(register != null) s = s.and(UserSpec.hasRegister(register));
+        if(register != null) s = s.and(UserSpec.hasLastUpdate(lastUpdate));
+
+        return userRepository.findAll(s, page).map((u) -> new UserResponsePageDTO(
                 u.getId(),
                 u.getUsername(),
                 u.getEmail(),
@@ -103,7 +115,5 @@ public class UserService implements UserServiceInterface{
                 u.getRegister(),
                 u.getLastUpdate()
         ));
-
-        return q;
     }
 }

@@ -46,13 +46,13 @@ public class UserController {
        );
     }
 
-    @PostMapping("/password_update")
+    @PutMapping("/password_update")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDTO updatePasswordDTO){
         userService.updatePassword(updatePasswordDTO);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/role_update")
+    @PutMapping("/role_update")
     public ResponseEntity<?> updateRole(@Valid @RequestBody UpdateRoleDTO updateRoleDTO){
         userService.updateRole(updateRoleDTO);
         return ResponseEntity.ok().build();
