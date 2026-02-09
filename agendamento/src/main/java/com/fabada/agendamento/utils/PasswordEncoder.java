@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class PasswordEncoder implements PasswordEncoderInterface{
 
     @Override
-    public String encoder(String password) {
+    public String encoder(String password) throws PasswordEncoderBlankException{
         if(password.isBlank()) throw new PasswordEncoderBlankException("password blank");
 
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder(16);
