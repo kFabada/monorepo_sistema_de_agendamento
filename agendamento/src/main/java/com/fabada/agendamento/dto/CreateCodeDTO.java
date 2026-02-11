@@ -3,6 +3,6 @@ package com.fabada.agendamento.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public record CreateCodeDTO(
-        @NotBlank
-        String username) {
+        @NotBlank(message = "email blank")
+        String email) {
 }

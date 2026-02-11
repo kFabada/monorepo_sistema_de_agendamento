@@ -5,6 +5,8 @@ import com.fabada.agendamento.enums.UserRole;
 import com.fabada.agendamento.service.UserServiceInterface;
 import com.fabada.agendamento.utils.PasswordEncoderInterface;
 import com.fabada.agendamento.validated.UserValidatedRegister;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import jakarta.validation.Valid;
 import com.fabada.agendamento.model.User;
 import jakarta.websocket.server.PathParam;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -28,6 +31,11 @@ public class UserController {
         this.userValidatedRegister = userValidatedRegister;
         this.passwordEncoder = passwordEncoder;
     }
+
+//    @PostMapping
+//    public ResponseEntity<?> generateJWT(){
+//
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterDTO userDTOValidated){
@@ -52,12 +60,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ADM')")
     @PutMapping("/role_update")
     public ResponseEntity<?> updateRole(@Valid @RequestBody UpdateRoleDTO updateRoleDTO){
         userService.updateRole(updateRoleDTO);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ADM')")
     @GetMapping("/all_page{page}{size}{sort}")
     public ResponseEntity<?> getAllPage(
             @RequestParam(defaultValue = "0") int page,
@@ -68,6 +78,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllPage(PageRequest.of(page, size, sort)));
     }
 
+    @PreAuthorize("hasRole('ADM')")
     @GetMapping("/search_filter{id}{username}{email}{role}{register}{lastUpdate}{page}{size}{sortBy}")
     public ResponseEntity<?> getFilterUser(
             @RequestParam(required = false) Long id,

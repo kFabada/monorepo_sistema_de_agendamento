@@ -67,7 +67,7 @@ public class UserService implements UserServiceInterface{
 
     @Override
     public void updatePassword(UpdatePasswordDTO passwordDTO) {
-         Optional<CodeManager> codeManager = codeRepository.findByCode(passwordDTO.code());
+         Optional<CodeManager> codeManager = codeRepository.findByCode(Integer.parseInt(passwordDTO.code()));
          User user = userUpdatePasswordValidated.verify(codeManager,passwordDTO);
          user.setPassword(passwordEncoder.encoder(passwordDTO.password()));
          userRepository.save(user);

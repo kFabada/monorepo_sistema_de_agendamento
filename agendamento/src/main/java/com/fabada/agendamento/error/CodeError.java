@@ -1,5 +1,6 @@
 package com.fabada.agendamento.error;
 
+import com.fabada.agendamento.execption.CodeExpiredException;
 import com.fabada.agendamento.execption.CodeNotFoundException;
 import com.fabada.agendamento.execption.CodeOrUsernameInvalid;
 import org.springframework.http.HttpStatus;
@@ -24,5 +25,9 @@ public class CodeError {
         return new MessageErro(e.getMessage());
     }
 
-
+    @ExceptionHandler(value = CodeExpiredException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody MessageErro handleCodeExpiredException(CodeExpiredException e){
+        return new MessageErro(e.getMessage());
+    }
 }

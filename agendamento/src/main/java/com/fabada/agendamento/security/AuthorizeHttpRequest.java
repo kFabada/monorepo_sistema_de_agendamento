@@ -20,7 +20,7 @@ public class AuthorizeHttpRequest {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authRequest -> authRequest
-                                .requestMatchers("/user/register", "/code/generation")
+                                .requestMatchers("/user/register", "/code/generation", "/user/password_update")
                                 .permitAll()
                 )
                 .authorizeHttpRequests(authRequest -> authRequest
