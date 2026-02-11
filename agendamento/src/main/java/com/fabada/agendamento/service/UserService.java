@@ -75,10 +75,10 @@ public class UserService implements UserServiceInterface{
 
     @Override
     public void updateRole(UpdateRoleDTO updateRoleDTO) {
-      User user = this.findByUsername(updateRoleDTO.username());
-      userRoleValidated.verify(updateRoleDTO.role());
-      user.setRole(UserRole.valueOf(updateRoleDTO.role()));
-      userRepository.save(user);
+        userRoleValidated.verify(updateRoleDTO.role());
+        User user = findByUsername(updateRoleDTO.username());
+        user.setRole(UserRole.valueOf(updateRoleDTO.role()));
+        userRepository.save(user);
     }
 
     @Override

@@ -24,13 +24,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userService.findByOptionalUsername(username);
-        if(user.isEmpty()) throw new UsernameNotFoundException("username not found");
+        User user = userService.findByOptionalUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("username not found"));
 
         return new CustomUserDetails(
-                List.of(user.get().getRole().name()),
-                passwordEncoderType.getEncoder() + user.get().getPassword(),
-                user.get().getUsername()
+                List.of(user.getRole().name()),
+                passwordEncoderType.getEncoder() + user.getPassword(),
+                user.getUsername()
         );
     }
 }
