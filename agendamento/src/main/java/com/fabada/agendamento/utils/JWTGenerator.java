@@ -26,8 +26,8 @@ public class JWTGenerator implements JWTGeneratorInterface{
     private RSAPublicKey rsaPublicKey;
 
     @Override
-    public String generator(String username, String role) {
-        return setJWT(username,role);
+    public String generator(String username, String scope) {
+        return setJWT(username, scope);
     }
 
     @Override
@@ -42,11 +42,11 @@ public class JWTGenerator implements JWTGeneratorInterface{
                 .build();
     }
 
-    private String setJWT(String username, String role){
+    private String setJWT(String username, String scope){
         try{
             RSAKey rsaKey = setRsaKey();
             JWSSigner signer = jwsSigner(rsaKey);
-            JWTClaimsSet claimsSet = claimsSet(username, role);
+            JWTClaimsSet claimsSet = claimsSet(username, scope);
             SignedJWT signed = signedJWT(claimsSet, rsaKey);
 
             signed.sign(signer);
@@ -56,7 +56,7 @@ public class JWTGenerator implements JWTGeneratorInterface{
         }
     }
 
-    private JWTClaimsSet claimsSet(String username, String role){
+    private JWTClaimsSet claimsSet(String username, String scope){
         Instant now = Instant.now();
         Date issueTime = Date.from(now);
 
@@ -64,7 +64,7 @@ public class JWTGenerator implements JWTGeneratorInterface{
                 .Builder()
 
                 .claim("username", username)
-                .claim("role", role)
+                .claim("scope", scope)
                 .issuer("http://localhost:8080")
                 .expirationTime(Date.from(now.plusSeconds(60 * 60)))
                 .issueTime(issueTime)
