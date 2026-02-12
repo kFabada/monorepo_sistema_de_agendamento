@@ -5,14 +5,11 @@ import com.fabada.agendamento.enums.UserRole;
 import com.fabada.agendamento.service.UserServiceInterface;
 import com.fabada.agendamento.utils.PasswordEncoderInterface;
 import com.fabada.agendamento.validated.UserValidatedRegister;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import jakarta.validation.Valid;
 import com.fabada.agendamento.model.User;
-import jakarta.websocket.server.PathParam;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -34,11 +31,6 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-//    @PostMapping
-//    public ResponseEntity<?> generateJWT(){
-//
-//    }
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterDTO userDTOValidated){
        User userMap = userDTOValidated.mapToUser();
@@ -47,13 +39,13 @@ public class UserController {
        userMap.setPassword(passwordEncoder.encoder(userMap.getPassword()));
 
        User user = userService.save(userMap);
-       return ResponseEntity.ok(
-               new UserResponseDTO(
+       return ResponseEntity
+               .status(HttpStatus.CREATED)
+               .body(new UserResponseDTO(
                    user.getId(),
                    user.getUsername(),
                    user.getEmail(),
-                   user.getRole())
-       );
+                   user.getRole()));
     }
 
     @PutMapping("/password_update")

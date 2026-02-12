@@ -16,7 +16,6 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.Date;
-import java.util.Map;
 
 @Component
 public class JWTGenerator implements JWTGeneratorInterface{
@@ -56,7 +55,7 @@ public class JWTGenerator implements JWTGeneratorInterface{
 
             return new TokenDTO(signed.serialize(),scope, iat, exp) ;
         } catch (JOSEException e) {
-            throw new JWTGeneratorException(e.getMessage());
+            throw new JWTGeneratorException("failure to generate jwt");
         }
     }
 
