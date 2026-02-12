@@ -1,5 +1,6 @@
 package com.fabada.agendamento.utils;
 
+import com.fabada.agendamento.dto.TokenDTO;
 import com.fabada.agendamento.execption.JWTGeneratorException;
 import com.nimbusds.jose.*;
 
@@ -26,7 +27,7 @@ public class JWTGenerator implements JWTGeneratorInterface{
     private RSAPublicKey rsaPublicKey;
 
     @Override
-    public String generator(String username, String scope) {
+    public TokenDTO generator(String username, String scope) {
         return setJWT(username, scope);
     }
 
@@ -42,32 +43,31 @@ public class JWTGenerator implements JWTGeneratorInterface{
                 .build();
     }
 
-    private String setJWT(String username, String scope){
+    private TokenDTO setJWT(String username, String scope){
         try{
+            Instant iat = Instant.now();
+            Instant exp = iat.plusSeconds(60 * 60);
+
             RSAKey rsaKey = setRsaKey();
             JWSSigner signer = jwsSigner(rsaKey);
-            JWTClaimsSet claimsSet = claimsSet(username, scope);
+            JWTClaimsSet claimsSet = claimsSet(username, scope, iat, exp);
             SignedJWT signed = signedJWT(claimsSet, rsaKey);
-
             signed.sign(signer);
-            return signed.serialize();
+
+            return new TokenDTO(signed.serialize(),scope, iat, exp) ;
         } catch (JOSEException e) {
             throw new JWTGeneratorException(e.getMessage());
         }
     }
 
-    private JWTClaimsSet claimsSet(String username, String scope){
-        Instant now = Instant.now();
-        Date issueTime = Date.from(now);
-
+    private JWTClaimsSet claimsSet(String username, String scope, Instant iat, Instant exp){
         return new JWTClaimsSet
                 .Builder()
-
                 .claim("username", username)
                 .claim("scope", scope)
                 .issuer("http://localhost:8080")
-                .expirationTime(Date.from(now.plusSeconds(60 * 60)))
-                .issueTime(issueTime)
+                .expirationTime(Date.from(exp))
+                .issueTime(Date.from(iat))
                 .build();
     }
 

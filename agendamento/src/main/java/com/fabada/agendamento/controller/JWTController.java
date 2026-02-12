@@ -18,7 +18,6 @@ public class JWTController {
 
     @PostMapping
     public ResponseEntity<?> createToken(){
-        String token = jwtService.createToken();
-        return ResponseEntity.ok().body(new TokenDTO(token));
+        return ResponseEntity.ok().body(jwtService.createToken());
     }
 }

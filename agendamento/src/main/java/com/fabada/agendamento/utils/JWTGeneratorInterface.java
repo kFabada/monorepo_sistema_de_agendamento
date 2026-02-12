@@ -1,8 +1,10 @@
 package com.fabada.agendamento.utils;
 
+import com.fabada.agendamento.dto.TokenDTO;
+
 import java.util.Map;
 
 public interface JWTGeneratorInterface {
-    String generator(String username, String scope);
+    TokenDTO generator(String username, String scope);
     boolean validaJWT();
 }

@@ -62,14 +62,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('ADM')")
+    @PreAuthorize("hasRole('ROLE_ADM')")
     @PutMapping("/role_update")
     public ResponseEntity<?> updateRole(@Valid @RequestBody UpdateRoleDTO updateRoleDTO){
         userService.updateRole(updateRoleDTO);
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('ADM')")
+    @PreAuthorize("hasRole('ROLE_ADM')")
     @GetMapping("/all_page{page}{size}{sort}")
     public ResponseEntity<?> getAllPage(
             @RequestParam(defaultValue = "0") int page,
@@ -80,7 +80,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllPage(PageRequest.of(page, size, sort)));
     }
 
-    @PreAuthorize("hasRole('ADM')")
+    @PreAuthorize("hasRole('ROLE_ADM')")
     @GetMapping("/search_filter{id}{username}{email}{role}{register}{lastUpdate}{page}{size}{sortBy}")
     public ResponseEntity<?> getFilterUser(
             @RequestParam(required = false) Long id,

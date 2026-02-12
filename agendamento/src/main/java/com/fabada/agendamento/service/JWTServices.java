@@ -1,5 +1,6 @@
 package com.fabada.agendamento.service;
 
+import com.fabada.agendamento.dto.TokenDTO;
 import com.fabada.agendamento.enums.UserRole;
 import com.fabada.agendamento.utils.JWTGeneratorInterface;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,7 @@ public class JWTServices implements JWTServiceInterface{
     }
 
     @Override
-    public String createToken() {
+    public TokenDTO createToken() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         Optional<String> reduce = auth.getAuthorities()

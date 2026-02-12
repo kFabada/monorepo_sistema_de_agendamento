@@ -1,4 +1,6 @@
 package com.fabada.agendamento.dto;
 
-public record TokenDTO(String token) {
+import java.time.Instant;
+
+public record TokenDTO(String token, String scope, Instant iat, Instant exp) {
 }
