@@ -7,16 +7,18 @@ import com.fabada.agendamento.utils.PasswordEncoderInterface;
 import com.fabada.agendamento.validated.UserValidatedRegister;
 import jakarta.validation.Valid;
 import com.fabada.agendamento.model.User;
-import jakarta.websocket.server.PathParam;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
 @RestController
+@EnableMethodSecurity
 @RequestMapping("/user")
 public class UserController {
     private final UserServiceInterface userService;
@@ -37,13 +39,13 @@ public class UserController {
        userMap.setPassword(passwordEncoder.encoder(userMap.getPassword()));
 
        User user = userService.save(userMap);
-       return ResponseEntity.ok(
-               new UserResponseDTO(
+       return ResponseEntity
+               .status(HttpStatus.CREATED)
+               .body(new UserResponseDTO(
                    user.getId(),
                    user.getUsername(),
                    user.getEmail(),
-                   user.getRole())
-       );
+                   user.getRole()));
     }
 
     @PutMapping("/password_update")
@@ -52,12 +54,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADM')")
     @PutMapping("/role_update")
     public ResponseEntity<?> updateRole(@Valid @RequestBody UpdateRoleDTO updateRoleDTO){
         userService.updateRole(updateRoleDTO);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADM')")
     @GetMapping("/all_page{page}{size}{sort}")
     public ResponseEntity<?> getAllPage(
             @RequestParam(defaultValue = "0") int page,
@@ -68,6 +72,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllPage(PageRequest.of(page, size, sort)));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADM')")
     @GetMapping("/search_filter{id}{username}{email}{role}{register}{lastUpdate}{page}{size}{sortBy}")
     public ResponseEntity<?> getFilterUser(
             @RequestParam(required = false) Long id,

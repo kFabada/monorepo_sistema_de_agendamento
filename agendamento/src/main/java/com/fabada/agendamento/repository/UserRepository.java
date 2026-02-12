@@ -20,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Query("select u from users u where u.email = ?1")
     Optional<User> findByEmail(String email);
     Page<User> findAll(Pageable page);
+
 }

@@ -67,7 +67,7 @@ public class UserService implements UserServiceInterface{
 
     @Override
     public void updatePassword(UpdatePasswordDTO passwordDTO) {
-         Optional<CodeManager> codeManager = codeRepository.findByCode(passwordDTO.code());
+         Optional<CodeManager> codeManager = codeRepository.findByCode(Integer.parseInt(passwordDTO.code()));
          User user = userUpdatePasswordValidated.verify(codeManager,passwordDTO);
          user.setPassword(passwordEncoder.encoder(passwordDTO.password()));
          userRepository.save(user);
@@ -75,10 +75,10 @@ public class UserService implements UserServiceInterface{
 
     @Override
     public void updateRole(UpdateRoleDTO updateRoleDTO) {
-      User user = this.findByUsername(updateRoleDTO.username());
-      userRoleValidated.verify(updateRoleDTO.role());
-      user.setRole(UserRole.valueOf(updateRoleDTO.role()));
-      userRepository.save(user);
+        userRoleValidated.verify(updateRoleDTO.role());
+        User user = findByUsername(updateRoleDTO.username());
+        user.setRole(UserRole.valueOf(updateRoleDTO.role()));
+        userRepository.save(user);
     }
 
     @Override

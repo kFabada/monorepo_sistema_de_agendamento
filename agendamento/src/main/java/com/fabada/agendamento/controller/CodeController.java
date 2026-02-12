@@ -4,10 +4,7 @@ import com.fabada.agendamento.dto.CreateCodeDTO;
 import com.fabada.agendamento.service.CodeServiceInterface;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/code")
@@ -20,7 +17,7 @@ public class CodeController {
 
     @PostMapping("/generation")
     public ResponseEntity<?> createCode(@Valid @RequestBody CreateCodeDTO createCodeDTO){
-        codeService.gererateCode(createCodeDTO.username());
+        codeService.gererateCode(createCodeDTO.email());
         return ResponseEntity.ok().build();
     }
 }
