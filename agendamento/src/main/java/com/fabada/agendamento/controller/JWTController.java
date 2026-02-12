@@ -1,7 +1,6 @@
 package com.fabada.agendamento.controller;
 
-import com.fabada.agendamento.dto.TokenDTO;
-import com.fabada.agendamento.service.JWTServiceInterface;
+import com.fabada.agendamento.service.JWTService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/token")
 public class JWTController {
-    private final JWTServiceInterface jwtService;
+    private final JWTService jwtService;
 
-    public JWTController(JWTServiceInterface jwtService) {
+    public JWTController(JWTService jwtService) {
         this.jwtService = jwtService;
     }
 
