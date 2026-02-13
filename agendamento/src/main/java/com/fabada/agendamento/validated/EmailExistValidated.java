@@ -1,15 +1,15 @@
 package com.fabada.agendamento.validated;
 
 import com.fabada.agendamento.execption.EmailExistException;
-import com.fabada.agendamento.service.UserServiceInterface;
+import com.fabada.agendamento.service.UserService;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class EmailExistValidated implements EmailExistValidatedInterface {
-    private final UserServiceInterface userService;
+    private final UserService userService;
 
-    public EmailExistValidated(UserServiceInterface userService) {
+    public EmailExistValidated(UserService userService) {
         this.userService = userService;
     }
 
