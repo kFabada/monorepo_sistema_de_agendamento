@@ -1,7 +1,7 @@
 package com.fabada.agendamento.security;
 
 import com.fabada.agendamento.model.User;
-import com.fabada.agendamento.service.UserServiceInterface;
+import com.fabada.agendamento.service.UserService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,15 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserServiceInterface userService;
-    private final PasswordEncoderTypeInterface passwordEncoderType;
+    private final UserService userService;
+    private final PasswordEncoderType passwordEncoderType;
 
-    public CustomUserDetailsService(UserServiceInterface userService, PasswordEncoderTypeInterface passwordEncoderType) {
+    public CustomUserDetailsService(UserService userService, PasswordEncoderType passwordEncoderType) {
         this.userService = userService;
         this.passwordEncoderType = passwordEncoderType;
     }
