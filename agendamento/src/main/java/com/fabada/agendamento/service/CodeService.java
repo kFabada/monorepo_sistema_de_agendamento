@@ -1,6 +1,5 @@
 package com.fabada.agendamento.service;
 
-import ch.qos.logback.core.testUtil.RandomUtil;
 import com.fabada.agendamento.model.CodeManager;
 import com.fabada.agendamento.model.User;
 import com.fabada.agendamento.repository.CodeRepository;
@@ -21,8 +20,8 @@ public class CodeService implements CodeServiceInterface{
     }
 
     @Override
-    public void gererateCode(String username) {
-       User user = userService.userbyUsername(username);
+    public void gererateCode(String email) {
+       User user = userService.findByEmail(email);
        Optional<CodeManager> optionalCode = codeRepository.findByUserId(user);
        CodeManager codeManager = new CodeManager();
 
@@ -30,14 +29,12 @@ public class CodeService implements CodeServiceInterface{
         String codeNumber = "";
         Random random = new Random();
 
-       for(int i = 0; i <= 5; i++){
-         codeNumber = codeNumber.concat(String.valueOf(random.nextInt(9)));
-       }
+       for(int i = 0; i <= 5; i++) codeNumber = codeNumber.concat(String.valueOf(random.nextInt(9)));
 
 
-       if(optionalCode.isPresent()) codeManager.setId(codeManager.getId());
+       optionalCode.ifPresent(manager -> codeManager.setId(manager.getId()));
        codeManager.setRegister(localDateTime);
-       codeManager.setTimeValid(localDateTime.minusMinutes(30));
+       codeManager.setTimeValid(localDateTime.plusMinutes(5));
        codeManager.setCode(Integer.parseInt(codeNumber));
        codeManager.setUserId(user);
        codeRepository.save(codeManager);

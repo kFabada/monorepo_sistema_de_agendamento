@@ -2,25 +2,13 @@ package com.fabada.agendamento.validated;
 
 import com.fabada.agendamento.enums.UserRole;
 import com.fabada.agendamento.execption.UserRoleException;
+import org.springframework.stereotype.Component;
 
-public class UserRoleValidated {
-    private final String role;
+@Component
+public class UserRoleValidated implements UserRoleValidatedInferface {
 
-    public UserRoleValidated(String role){
-        if(role.isBlank()) throw new UserRoleException("role invalid");
-        this.role = role;
-    }
-
-    public void verify() {
-        boolean valid = false;
-
-        for (UserRole role : UserRole.values()){
-            if(role.name().equals(this.role)){
-                valid = true;
-                break;
-            }
-        }
-
-        if(!valid) throw new UserRoleException("role invalid");
+    @Override
+    public void verify(String role) {
+       if(!UserRole.roleEquals(role)) throw new UserRoleException("role invalid");
     }
 }

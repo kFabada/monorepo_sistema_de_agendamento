@@ -4,9 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 
 public record UpdatePasswordDTO(
         @NotBlank
-        String username,
+        String email,
         @NotBlank
         String password,
         @NotBlank
-        int code) {
+        String code) {
 }

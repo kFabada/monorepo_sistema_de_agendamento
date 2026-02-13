@@ -15,5 +15,7 @@ spring:
     username: "postgres"
     password: "1234"
     pool-size: "30"
-
+  key:
+     rsa-public: "classpath:rsapublic.pem"
+     rsa-private: "classpath:rsaprivate.pem"
 
