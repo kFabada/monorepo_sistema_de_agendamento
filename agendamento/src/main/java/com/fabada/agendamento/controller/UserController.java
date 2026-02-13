@@ -2,8 +2,8 @@ package com.fabada.agendamento.controller;
 
 import com.fabada.agendamento.dto.*;
 import com.fabada.agendamento.enums.UserRole;
-import com.fabada.agendamento.service.UserServiceInterface;
-import com.fabada.agendamento.utils.PasswordEncoderInterface;
+import com.fabada.agendamento.service.UserService;
+import com.fabada.agendamento.utils.PasswordEncoder;
 import com.fabada.agendamento.validated.UserValidatedRegister;
 import jakarta.validation.Valid;
 import com.fabada.agendamento.model.User;
@@ -21,11 +21,11 @@ import java.time.LocalDateTime;
 @EnableMethodSecurity
 @RequestMapping("/user")
 public class UserController {
-    private final UserServiceInterface userService;
+    private final UserService userService;
     private final UserValidatedRegister userValidatedRegister;
-    private final PasswordEncoderInterface passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserServiceInterface userService, UserValidatedRegister userValidatedRegister, PasswordEncoderInterface passwordEncoder) {
+    public UserController(UserService userService, UserValidatedRegister userValidatedRegister, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.userValidatedRegister = userValidatedRegister;
         this.passwordEncoder = passwordEncoder;

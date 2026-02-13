@@ -9,17 +9,14 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public record UserRegisterDTO(
         @NotBlank
-        @Email(message = "email don't invalid")
+        @Email(message = "email don't valid")
         String email,
         @NotBlank
         String username,
         @NotBlank
-        String password,
-        @NotBlank
-        String role
+        String password
         ) {
-
         public User mapToUser(){
-                return new User(username, email, password, UserRole.valueOf(role));
+                return new User(username, email, password, UserRole.CLIENT);
         }
 }

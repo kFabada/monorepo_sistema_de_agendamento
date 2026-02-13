@@ -1,7 +1,7 @@
 package com.fabada.agendamento.validated;
 
 import com.fabada.agendamento.execption.UsernameExistException;
-import com.fabada.agendamento.service.UserServiceInterface;
+import com.fabada.agendamento.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsernameExistValidated implements UsernameExistValidatedInterface {
     @Autowired
-    private UserServiceInterface userService;
+    private UserService userService;
 
     @Override
     public void verify(String username) throws UsernameExistException {
