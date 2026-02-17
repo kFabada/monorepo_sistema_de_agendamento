@@ -12,8 +12,10 @@ import com.fabada.agendamento.repository.CodeRepository;
 import com.fabada.agendamento.repository.UserRepository;
 import com.fabada.agendamento.repository.spec.UserSpec;
 import com.fabada.agendamento.utils.PasswordEncoder;
-import com.fabada.agendamento.validated.UserRoleValidatedInferface;
-import com.fabada.agendamento.validated.UserUpdatePasswordValidatedInterface;
+import com.fabada.agendamento.validated.UserRoleValidated;
+import com.fabada.agendamento.validated.UserUpdatePasswordValidated;
+import com.fabada.agendamento.validated.UserValidatedRegister;
+import com.fabada.agendamento.validated.UserValidatedRegisterImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,15 +29,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final CodeRepository codeRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserRoleValidatedInferface userRoleValidated;
-    private final UserUpdatePasswordValidatedInterface userUpdatePasswordValidated;
+    private final UserRoleValidated userRoleValidated;
+    private final UserUpdatePasswordValidated userUpdatePasswordValidated;
+    private final UserValidatedRegister userValidatedRegister;
 
-    public UserServiceImpl(UserRepository userRepository, CodeRepository codeRepository, PasswordEncoder passwordEncoder, UserRoleValidatedInferface userRoleValidated, UserUpdatePasswordValidatedInterface userUpdatePasswordValidated) {
+    public UserServiceImpl(UserRepository userRepository, CodeRepository codeRepository, PasswordEncoder passwordEncoder, UserRoleValidated userRoleValidated, UserUpdatePasswordValidated userUpdatePasswordValidated, UserValidatedRegister userValidatedRegister){
         this.userRepository = userRepository;
         this.codeRepository = codeRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRoleValidated = userRoleValidated;
         this.userUpdatePasswordValidated = userUpdatePasswordValidated;
+        this.userValidatedRegister = userValidatedRegister;
     }
 
     @Override
@@ -62,6 +66,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        userValidatedRegister.verify(user);
+        user.setPassword(passwordEncoder.encoder(user.getPassword()));
         return userRepository.save(user);
     }
 

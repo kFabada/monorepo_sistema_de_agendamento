@@ -4,7 +4,7 @@ import com.fabada.agendamento.dto.*;
 import com.fabada.agendamento.enums.UserRole;
 import com.fabada.agendamento.service.UserService;
 import com.fabada.agendamento.utils.PasswordEncoder;
-import com.fabada.agendamento.validated.UserValidatedRegister;
+import com.fabada.agendamento.validated.UserValidatedRegisterImpl;
 import jakarta.validation.Valid;
 import com.fabada.agendamento.model.User;
 import org.springframework.data.domain.PageRequest;
@@ -22,22 +22,14 @@ import java.time.LocalDateTime;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-    private final UserValidatedRegister userValidatedRegister;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UserValidatedRegister userValidatedRegister, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userValidatedRegister = userValidatedRegister;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegisterDTO userDTOValidated){
        User userMap = userDTOValidated.mapToUser();
-
-       userValidatedRegister.verify(userMap);
-       userMap.setPassword(passwordEncoder.encoder(userMap.getPassword()));
-
        User user = userService.save(userMap);
        return ResponseEntity
                .status(HttpStatus.CREATED)
