@@ -3,8 +3,6 @@ package com.fabada.agendamento.controller;
 import com.fabada.agendamento.dto.*;
 import com.fabada.agendamento.enums.UserRole;
 import com.fabada.agendamento.service.UserService;
-import com.fabada.agendamento.utils.PasswordEncoder;
-import com.fabada.agendamento.validated.UserValidatedRegisterImpl;
 import jakarta.validation.Valid;
 import com.fabada.agendamento.model.User;
 import org.springframework.data.domain.PageRequest;
@@ -54,19 +52,19 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADM')")
-    @GetMapping("/all_page{page}{size}{sort}")
-    public ResponseEntity<?> getAllPage(
+    @GetMapping("/search_sort{page}{size}{sort}")
+    public ResponseEntity<?> getAllUserPageSort(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "true") boolean asc){
         Sort sort = asc ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-        return ResponseEntity.ok(userService.getAllPage(PageRequest.of(page, size, sort)));
+        return ResponseEntity.ok(userService.getAllUserSort(PageRequest.of(page, size, sort)));
     }
 
     @PreAuthorize("hasRole('ROLE_ADM')")
-    @GetMapping("/search_filter{id}{username}{email}{role}{register}{lastUpdate}{page}{size}{sortBy}")
-    public ResponseEntity<?> getFilterUser(
+    @GetMapping("/search_filter{id}{username}{email}{role}{register}{lastUpdate}{page}{size}")
+    public ResponseEntity<?> getAllUserPageFilter(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String email,
@@ -74,10 +72,9 @@ public class UserController {
             @RequestParam(required = false) LocalDateTime register,
             @RequestParam(required = false) LocalDateTime lastUpdate,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "true") boolean asc){
+            @RequestParam(defaultValue = "10") int size){
 
         PageRequest p = PageRequest.of(page, size);
-        return ResponseEntity.ok(userService.getFilterUser(id, username, email, role, register, lastUpdate, p));
+        return ResponseEntity.ok(userService.getAllUserFilter(id, username, email, role, register, lastUpdate, p));
     }
 }

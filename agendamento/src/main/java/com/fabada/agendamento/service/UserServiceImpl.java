@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserResponsePageDTO> getAllPage(Pageable page) {
+    public Page<UserResponsePageDTO> getAllUserSort(Pageable page) {
         return userRepository.findAll(page).map((u) -> new UserResponsePageDTO(
                         u.getId(),
                         u.getUsername(),
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserResponsePageDTO> getFilterUser(
+    public Page<UserResponsePageDTO> getAllUserFilter(
             Long id, String username, String email, UserRole role, LocalDateTime register, LocalDateTime lastUpdate, Pageable page) {
 
         Specification<User> s = Specification.where((from, criteriaBuilder) -> criteriaBuilder.conjunction());

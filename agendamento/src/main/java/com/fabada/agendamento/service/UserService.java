@@ -19,8 +19,8 @@ public interface UserService {
     User save (User user);
     void updatePassword(UpdatePasswordDTO updatePassword);
     void updateRole(UpdateRoleDTO updateRoleDTO);
-    Page<UserResponsePageDTO> getAllPage(Pageable page);
-    Page<UserResponsePageDTO> getFilterUser(Long id, String username, String email, UserRole role, LocalDateTime register, LocalDateTime lastUpdate, Pageable page);
+    Page<UserResponsePageDTO> getAllUserSort(Pageable page);
+    Page<UserResponsePageDTO> getAllUserFilter(Long id, String username, String email, UserRole role, LocalDateTime register, LocalDateTime lastUpdate, Pageable page);
 
 
 }
