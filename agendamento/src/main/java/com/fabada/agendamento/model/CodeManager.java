@@ -3,6 +3,7 @@ package com.fabada.agendamento.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.LocalDateTime;
@@ -24,4 +25,6 @@ public class CodeManager {
     private LocalDateTime register;
     @Column(name = "time_valid")
     private LocalDateTime timeValid;
+    @ColumnDefault("false")
+    private boolean isUsed;
 }

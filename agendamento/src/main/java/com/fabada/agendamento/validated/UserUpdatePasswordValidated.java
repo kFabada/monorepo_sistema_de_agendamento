@@ -7,5 +7,5 @@ import com.fabada.agendamento.model.User;
 import java.util.Optional;
 
 public interface UserUpdatePasswordValidated {
-    User verify(Optional<CodeManager> codeManager, UpdatePasswordDTO passwordDTO);
+    User verify(CodeManager codeManager, UpdatePasswordDTO passwordDTO);
 }

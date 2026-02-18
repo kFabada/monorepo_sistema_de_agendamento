@@ -4,6 +4,7 @@ import com.fabada.agendamento.dto.UpdatePasswordDTO;
 import com.fabada.agendamento.dto.UpdateRoleDTO;
 import com.fabada.agendamento.dto.UserResponsePageDTO;
 import com.fabada.agendamento.enums.UserRole;
+import com.fabada.agendamento.execption.CodeNotFoundException;
 import com.fabada.agendamento.execption.EmailNotFoundException;
 import com.fabada.agendamento.execption.UsernameNotFoundException;
 import com.fabada.agendamento.model.CodeManager;
@@ -15,7 +16,6 @@ import com.fabada.agendamento.utils.PasswordEncoder;
 import com.fabada.agendamento.validated.UserRoleValidated;
 import com.fabada.agendamento.validated.UserUpdatePasswordValidated;
 import com.fabada.agendamento.validated.UserValidatedRegister;
-import com.fabada.agendamento.validated.UserValidatedRegisterImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,15 +27,15 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final CodeRepository codeRepository;
+    private final CodeService codeService;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleValidated userRoleValidated;
     private final UserUpdatePasswordValidated userUpdatePasswordValidated;
     private final UserValidatedRegister userValidatedRegister;
 
-    public UserServiceImpl(UserRepository userRepository, CodeRepository codeRepository, PasswordEncoder passwordEncoder, UserRoleValidated userRoleValidated, UserUpdatePasswordValidated userUpdatePasswordValidated, UserValidatedRegister userValidatedRegister){
+    public UserServiceImpl(UserRepository userRepository, CodeService codeService, PasswordEncoder passwordEncoder, UserRoleValidated userRoleValidated, UserUpdatePasswordValidated userUpdatePasswordValidated, UserValidatedRegister userValidatedRegister){
         this.userRepository = userRepository;
-        this.codeRepository = codeRepository;
+        this.codeService = codeService;
         this.passwordEncoder = passwordEncoder;
         this.userRoleValidated = userRoleValidated;
         this.userUpdatePasswordValidated = userUpdatePasswordValidated;
@@ -73,10 +73,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updatePassword(UpdatePasswordDTO passwordDTO) {
-         Optional<CodeManager> codeManager = codeRepository.findByCode(Integer.parseInt(passwordDTO.code()));
-         User user = userUpdatePasswordValidated.verify(codeManager,passwordDTO);
+         Optional<CodeManager> codeManager = codeService.findByCode(Integer.parseInt(passwordDTO.code()));
+         if(codeManager.isEmpty()) throw new CodeNotFoundException("code not found");
+
+         User user = userUpdatePasswordValidated.verify(codeManager.get(),passwordDTO);
          user.setPassword(passwordEncoder.encoder(passwordDTO.password()));
          userRepository.save(user);
+
+         codeManager.get().setUsed(true);
+         codeService.save(codeManager.get());
     }
 
     @Override

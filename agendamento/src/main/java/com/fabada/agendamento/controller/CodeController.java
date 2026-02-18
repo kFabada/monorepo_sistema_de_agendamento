@@ -17,7 +17,7 @@ public class CodeController {
 
     @PostMapping("/generation")
     public ResponseEntity<?> createCode(@Valid @RequestBody CreateCodeDTO createCodeDTO){
-        codeService.gererateCode(createCodeDTO.email());
+        codeService.generateCode(createCodeDTO.email());
         return ResponseEntity.ok().build();
     }
 }
