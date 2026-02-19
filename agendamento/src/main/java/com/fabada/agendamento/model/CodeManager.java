@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class CodeManager {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -27,4 +28,6 @@ public class CodeManager {
     private LocalDateTime timeValid;
     @ColumnDefault("false")
     private boolean isUsed;
+
+
 }
