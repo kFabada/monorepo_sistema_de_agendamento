@@ -35,6 +35,7 @@ class CodeServiceImplTest {
 
     private User user;
     private Optional<CodeManager> optionalCodeManager;
+    final int code = 597120;
 
     @BeforeEach
     void init(){
@@ -57,7 +58,7 @@ class CodeServiceImplTest {
                                 .userId(user)
                                 .register(LocalDateTime.now())
                                 .timeValid(LocalDateTime.now().plusMinutes(15))
-                                .code(597120)
+                                .code(code)
                         .build()
                 );
     }
@@ -83,8 +84,8 @@ class CodeServiceImplTest {
         }
 
         @Test
-        @DisplayName("should update code manager")
-        void shouldUpdateCodeManager(){
+        @DisplayName("should create code manager")
+        void shouldCreateCodeManager(){
             final String email = "fabiano@gmail.com";
             final String code = "597120";
 
@@ -97,15 +98,85 @@ class CodeServiceImplTest {
             when(randomCode.createCode(6, 9))
                     .thenReturn(code);
 
-            lenient().when(codeRepository.save(optionalCodeManager.get()))
+            when(codeRepository.save(any(CodeManager.class)))
                     .thenReturn(optionalCodeManager.get());
 
             codeService.generateCode(email);
 
+            ArgumentCaptor<CodeManager> argument = ArgumentCaptor.forClass(CodeManager.class);
+
             verify(userService, times(1)).findByEmail(email);
             verify(randomCode, times(1)).createCode(6, 9);
-            verify(codeRepository, times(1)).save(any(CodeManager.class));
+            verify(codeRepository, times(1)).save(argument.capture());
+
+            String captureCode = String.valueOf(argument.getValue().getCode());
+
+            assertEquals(Integer.parseInt(code), argument.getValue().getCode());
+            assertTrue(argument.getValue().getTimeValid().isAfter(argument.getValue().getRegister()));
+            assertTrue(!captureCode.isEmpty() && captureCode.chars().allMatch(Character::isDigit));
         }
 
+    }
+
+    @Nested
+    @DisplayName("Code manager find")
+    class CodeManagerFind{
+
+        @Test
+        @DisplayName("should return code manager by code")
+        void shouldReturnCodeManageByCode(){
+            when(codeRepository.findByCode(code))
+                    .thenReturn(optionalCodeManager);
+
+            Optional<CodeManager> result = codeService.findByCode(code);
+
+            verify(codeRepository, times(1))
+                    .findByCode(code);
+
+            assertEquals(code, result.get().getCode());
+        }
+
+        @Test
+        @DisplayName("should return code manager by user")
+        void shouldReturnCodeManageByUser(){
+            when(codeRepository.findByUserId(user))
+                    .thenReturn(optionalCodeManager);
+
+            Optional<CodeManager> result = codeService.findByUserId(user);
+
+            verify(codeRepository, times(1))
+                    .findByUserId(user);
+
+            assertEquals(user, result.get().getUserId());
+        }
+
+
+        @Test
+        @DisplayName("should return null code manager by code")
+        void shouldReturnNullCodeManageByCode(){
+            when(codeRepository.findByCode(code))
+                    .thenReturn(Optional.empty());
+
+            Optional<CodeManager> result = codeService.findByCode(code);
+
+            verify(codeRepository, times(1))
+                    .findByCode(code);
+
+            assertEquals(true, result.isEmpty());
+        }
+
+        @Test
+        @DisplayName("should return null code manager by user")
+        void shouldReturnNullCodeManageByUser(){
+            when(codeRepository.findByUserId(user))
+                    .thenReturn(Optional.empty());
+
+            Optional<CodeManager> result = codeService.findByUserId(user);
+
+            verify(codeRepository, times(1))
+                    .findByUserId(user);
+
+            assertEquals(true, result.isEmpty());
+        }
     }
 }
