@@ -2,20 +2,19 @@ package com.fabada.agendamento.service;
 
 import com.fabada.agendamento.dto.TokenDTO;
 import com.fabada.agendamento.enums.UserRole;
-import com.fabada.agendamento.utils.JWTGeneratorInterface;
+import com.fabada.agendamento.utils.JWTGenerator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class JWTServices implements JWTServiceInterface{
-    private final JWTGeneratorInterface jwtGenerator;
+public class JWTServicesImpl implements JWTService {
+    private final JWTGenerator jwtGenerator;
 
-    public JWTServices(JWTGeneratorInterface jwtGenerator) {
+    public JWTServicesImpl(JWTGenerator jwtGenerator) {
         this.jwtGenerator = jwtGenerator;
     }
 
