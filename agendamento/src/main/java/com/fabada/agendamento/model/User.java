@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,7 +34,6 @@ public class User {
     @Column(nullable = false)
     @CurrentTimestamp
     private LocalDateTime lastUpdate;
-
 
     public User(String username, String email, String password, UserRole role) {
         this.username = username;

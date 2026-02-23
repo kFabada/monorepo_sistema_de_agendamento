@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
+
 public class CodeServiceImpl implements CodeService {
     private final CodeRepository codeRepository;
     private final UserService userService;
@@ -35,7 +36,7 @@ public class CodeServiceImpl implements CodeService {
        optionalCode.ifPresent(manager -> codeManager.setId(manager.getId()));
        optionalCode.ifPresent(manager -> codeManager.setUsed(false));
        codeManager.setRegister(registerTime);
-       codeManager.setTimeValid(registerTime.plusMinutes(5));
+       codeManager.setTimeValid(registerTime.plusMinutes(15));
        codeManager.setCode(Integer.parseInt(code));
        codeManager.setUserId(user);
        codeRepository.save(codeManager);
