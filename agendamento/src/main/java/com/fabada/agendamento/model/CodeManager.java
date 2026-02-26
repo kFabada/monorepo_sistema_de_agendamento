@@ -21,8 +21,7 @@ public class CodeManager {
     private Long id;
     private int code;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User userId;
+    private User user;
     private LocalDateTime register;
     @Column(name = "time_valid")
     private LocalDateTime timeValid;

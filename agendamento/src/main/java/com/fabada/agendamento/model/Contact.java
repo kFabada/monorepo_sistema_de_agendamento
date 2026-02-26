@@ -15,7 +15,6 @@ public class Contact {
     private Long id;
     private String phone;
     private String ddd;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Person person;
 }

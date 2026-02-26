@@ -18,7 +18,6 @@ public class Address {
     private String state;
     private String complement;
     private String address;
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Person person;
 }

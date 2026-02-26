@@ -28,19 +28,30 @@ public class CodeServiceImpl implements CodeService {
     public void generateCode(String email) {
        User user = userService.findByEmail(email);
        Optional<CodeManager> optionalCode = codeRepository.findByUserId(user);
-       CodeManager codeManager = new CodeManager();
 
-       LocalDateTime registerTime = LocalDateTime.now();
        String code = randomCode.createCode(6, 9);
+       CodeManager codeManager = buildCodeManager(user, optionalCode, code);
+
+       codeRepository.save(codeManager);
+    }
+
+    private CodeManager buildCodeManager(User user, Optional<CodeManager> optionalCode, String code){
+        LocalDateTime registerTime = LocalDateTime.now();
+
+        CodeManager codeManager = CodeManager
+                .builder()
+                .user(user)
+                .register(registerTime)
+                .timeValid(registerTime.plusMinutes(60))
+                .code(Integer.parseInt(code)).build();
 
        optionalCode.ifPresent(manager -> codeManager.setId(manager.getId()));
        optionalCode.ifPresent(manager -> codeManager.setUsed(false));
-       codeManager.setRegister(registerTime);
-       codeManager.setTimeValid(registerTime.plusMinutes(15));
-       codeManager.setCode(Integer.parseInt(code));
-       codeManager.setUserId(user);
-       codeRepository.save(codeManager);
+
+       return codeManager;
     }
+
+
 
     @Override
     public Optional<CodeManager> findByUserId(User user) {

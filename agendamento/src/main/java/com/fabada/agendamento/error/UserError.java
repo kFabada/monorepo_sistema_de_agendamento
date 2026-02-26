@@ -41,5 +41,11 @@ public class UserError {
         return new MessageErro(e.getMessage());
     }
 
+    @ExceptionHandler(value =  UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody MessageErro handleUserNotFoundException(UserNotFoundException e){
+        return new MessageErro(e.getMessage());
+    }
+
 
 }

@@ -9,7 +9,6 @@ import com.fabada.agendamento.execption.EmailNotFoundException;
 import com.fabada.agendamento.execption.UsernameNotFoundException;
 import com.fabada.agendamento.model.CodeManager;
 import com.fabada.agendamento.model.User;
-import com.fabada.agendamento.repository.CodeRepository;
 import com.fabada.agendamento.repository.UserRepository;
 import com.fabada.agendamento.repository.spec.UserSpec;
 import com.fabada.agendamento.utils.PasswordEncoder;
@@ -126,5 +125,10 @@ public class UserServiceImpl implements UserService {
                 u.getRegister(),
                 u.getLastUpdate()
         ));
+    }
+
+    @Override
+    public Optional<User> findbyId(Long id) {
+        return userRepository.findById(id);
     }
 }

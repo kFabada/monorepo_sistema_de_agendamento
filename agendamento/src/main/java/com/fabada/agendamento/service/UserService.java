@@ -21,6 +21,6 @@ public interface UserService {
     void updateRole(UpdateRoleDTO updateRoleDTO);
     Page<UserResponsePageDTO> getAllUserSort(Pageable page);
     Page<UserResponsePageDTO> getAllUserFilter(Long id, String username, String email, UserRole role, LocalDateTime register, LocalDateTime lastUpdate, Pageable page);
-
+    Optional<User> findbyId(Long id);
 
 }

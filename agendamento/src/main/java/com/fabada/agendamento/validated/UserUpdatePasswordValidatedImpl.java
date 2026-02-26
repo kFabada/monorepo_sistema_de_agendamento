@@ -19,11 +19,11 @@ public class UserUpdatePasswordValidatedImpl implements UserUpdatePasswordValida
     public User verify(CodeManager codeManager, UpdatePasswordDTO passwordDTO){
         if(codeManager.isUsed()) throw new CodeUsedException("code already used");
 
-        if(!(codeManager.getCode() == Integer.parseInt(passwordDTO.code())) || !(codeManager.getUserId().getEmail().equals(passwordDTO.email()))){
+        if(!(codeManager.getCode() == Integer.parseInt(passwordDTO.code())) || !(codeManager.getUser().getEmail().equals(passwordDTO.email()))){
             throw new CodeOrUsernameInvalid("code or username invalid");
         }
 
         if(LocalDateTime.now().isAfter(codeManager.getTimeValid())) throw new CodeExpiredException("code expired");
-        return codeManager.getUserId();
+        return codeManager.getUser();
     }
 }
