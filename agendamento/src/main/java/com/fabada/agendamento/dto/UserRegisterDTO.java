@@ -4,16 +4,17 @@ import com.fabada.agendamento.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import com.fabada.agendamento.model.User;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
 public record UserRegisterDTO(
-        @NotBlank
-        @Email(message = "email don't valid")
+        @NotNull(message = "email não pode ser vazio")
+        @Email(message = "precisa ser um email valido")
         String email,
-        @NotBlank
+        @NotNull(message = "username não pode ser vazio")
         String username,
-        @NotBlank
+        @NotNull(message = "password não pode ser vazio")
         String password
         ) {
         public User mapToUser(){

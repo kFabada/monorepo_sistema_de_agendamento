@@ -15,6 +15,7 @@ import com.fabada.agendamento.utils.PasswordEncoder;
 import com.fabada.agendamento.validated.UserRoleValidated;
 import com.fabada.agendamento.validated.UserUpdatePasswordValidated;
 import com.fabada.agendamento.validated.UserValidatedRegister;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -64,6 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         userValidatedRegister.verify(user);
         user.setPassword(passwordEncoder.encoder(user.getPassword()));
@@ -71,6 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updatePassword(UpdatePasswordDTO passwordDTO) {
          Optional<CodeManager> codeManager = codeService.findByCode(Integer.parseInt(passwordDTO.code()));
          if(codeManager.isEmpty()) throw new CodeNotFoundException("code not found");
@@ -84,6 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateRole(UpdateRoleDTO updateRoleDTO) {
         userRoleValidated.verify(updateRoleDTO.role());
         User user = findByUsername(updateRoleDTO.username());

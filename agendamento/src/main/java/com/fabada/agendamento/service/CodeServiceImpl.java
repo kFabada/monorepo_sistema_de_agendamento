@@ -4,6 +4,7 @@ import com.fabada.agendamento.model.CodeManager;
 import com.fabada.agendamento.model.User;
 import com.fabada.agendamento.repository.CodeRepository;
 import com.fabada.agendamento.utils.RandomCode;
+import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class CodeServiceImpl implements CodeService {
     }
 
     @Override
+    @Transactional
     public void generateCode(String email) {
        User user = userService.findByEmail(email);
        Optional<CodeManager> optionalCode = codeRepository.findByUserId(user);
@@ -64,6 +66,7 @@ public class CodeServiceImpl implements CodeService {
     }
 
     @Override
+    @Transactional
     public void save(CodeManager codeManager) {
         codeRepository.save(codeManager);
     }

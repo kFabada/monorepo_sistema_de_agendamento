@@ -2,11 +2,12 @@ package com.fabada.agendamento.dto;
 
 import com.fabada.agendamento.model.Person;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
 public record PersonUpdateDTO(
-        @NotBlank
+        @NotNull(message = "id da pessoa não pode ser vazio")
         Long id,
         String name,
         String cpf,

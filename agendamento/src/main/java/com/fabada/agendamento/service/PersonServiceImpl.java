@@ -8,6 +8,7 @@ import com.fabada.agendamento.model.User;
 import com.fabada.agendamento.repository.PersonRepository;
 import com.fabada.agendamento.repository.spec.PersonSpec;
 import com.fabada.agendamento.validated.PersonRegisterValidated;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.domain.UpdateSpecification;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
+    @Transactional
     public void registerPerson(PersonRegisterDTO personRegisterDTODTO) {
         User user = personRegisterValidated.verify(personRegisterDTODTO);
         personRepository.save(personRegisterDTODTO.mapToPerson(user));
@@ -36,6 +38,7 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
+    @Transactional
     public void updatePerson(PersonUpdateDTO personUpdateDTO) {
         UpdateSpecification<Person> specUpdate = PersonSpec.updateSetParameters(personUpdateDTO);
         personRepository.update(specUpdate);
