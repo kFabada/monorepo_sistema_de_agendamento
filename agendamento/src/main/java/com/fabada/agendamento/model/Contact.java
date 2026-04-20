@@ -16,6 +16,5 @@ public class Contact {
     private String phone;
     private String ddd;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 }

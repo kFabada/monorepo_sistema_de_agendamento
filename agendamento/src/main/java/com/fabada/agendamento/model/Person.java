@@ -19,11 +19,10 @@ public class Person {
     private String cpf;
     private String rg;
     private Date birthday;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "person")
     private Address address;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private List<Contact> contacts;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

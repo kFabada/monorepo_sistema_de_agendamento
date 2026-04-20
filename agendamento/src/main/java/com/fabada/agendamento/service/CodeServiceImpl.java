@@ -38,7 +38,7 @@ public class CodeServiceImpl implements CodeService {
        codeManager.setRegister(registerTime);
        codeManager.setTimeValid(registerTime.plusMinutes(15));
        codeManager.setCode(Integer.parseInt(code));
-       codeManager.setUserId(user);
+       codeManager.setUser(user);
        codeRepository.save(codeManager);
     }
 
