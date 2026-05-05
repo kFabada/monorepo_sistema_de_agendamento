@@ -55,7 +55,7 @@ class CodeServiceImplTest {
                         .builder()
                                 .id(1L)
                                 .isUsed(false)
-                                .userId(user)
+                                .user(user)
                                 .register(LocalDateTime.now())
                                 .timeValid(LocalDateTime.now().plusMinutes(15))
                                 .code(code)
@@ -147,7 +147,7 @@ class CodeServiceImplTest {
             verify(codeRepository, times(1))
                     .findByUserId(user);
 
-            assertEquals(user, result.get().getUserId());
+            assertEquals(user, result.get().getUser());
         }
 
 

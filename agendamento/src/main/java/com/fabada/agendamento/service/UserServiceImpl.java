@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
         if(email != null) s = s.and(UserSpec.hasEmail(email));
         if(role != null) s = s.and(UserSpec.hasRole(role));
         if(register != null) s = s.and(UserSpec.hasRegister(register));
-        if(register != null) s = s.and(UserSpec.hasLastUpdate(lastUpdate));
+        if(lastUpdate != null) s = s.and(UserSpec.hasLastUpdate(lastUpdate));
 
         return userRepository.findAll(s, page).map((u) -> new UserResponsePageDTO(
                 u.getId(),

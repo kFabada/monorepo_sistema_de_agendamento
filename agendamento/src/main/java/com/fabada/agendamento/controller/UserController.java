@@ -44,12 +44,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+
     @PreAuthorize("hasRole('ROLE_ADM')")
     @PutMapping("/role_update")
     public ResponseEntity<?> updateRole(@Valid @RequestBody UpdateRoleDTO updateRoleDTO){
         userService.updateRole(updateRoleDTO);
         return ResponseEntity.ok().build();
     }
+
 
     @PreAuthorize("hasRole('ROLE_ADM')")
     @GetMapping("/search_sort{page}{size}{sort}")

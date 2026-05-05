@@ -36,3 +36,5 @@ build/
 ### rsa key ###
 /src/main/resources/*.pem
 
+*/.env
+

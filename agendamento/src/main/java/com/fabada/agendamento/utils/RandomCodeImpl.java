@@ -8,6 +8,8 @@ import java.util.Random;
 public class RandomCodeImpl implements RandomCode{
     @Override
     public String createCode(int quantityNumbers, int limitRangeNumber) {
+
+        if(quantityNumbers <= 0 || limitRangeNumber <= 0) throw new IllegalArgumentException("");
         String code = "";
         Random random = new Random();
 

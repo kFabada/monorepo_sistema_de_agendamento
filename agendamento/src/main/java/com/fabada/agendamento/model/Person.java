@@ -25,4 +25,5 @@ public class Person {
     private List<Contact> contacts;
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
+    private String imagePath;
 }

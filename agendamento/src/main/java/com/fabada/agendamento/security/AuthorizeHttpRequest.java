@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.interfaces.RSAPublicKey;
+import java.util.regex.Pattern;
 
 
 @EnableWebSecurity
@@ -26,11 +27,16 @@ public class AuthorizeHttpRequest {
 
     @Bean
     public SecurityFilterChain filterRequest(HttpSecurity http){
+
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authRequest -> authRequest
-                                .requestMatchers("/user/register", "/code/generation", "/user/password_update")
+                                .requestMatchers(
+                                        "/user/register",
+                                        "/code/generation",
+                                        "/user/password_update"
+                                )
                                 .permitAll()
                 )
                 .authorizeHttpRequests(authRequest -> authRequest
