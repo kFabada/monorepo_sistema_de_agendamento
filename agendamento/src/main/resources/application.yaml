@@ -18,4 +18,10 @@ spring:
   key:
      rsa-public: "classpath:rsapublic.pem"
      rsa-private: "classpath:rsaprivate.pem"
+  cloud:
+    aws:
+      credentials:
 
+
+
+PATH_RESOURCES: "C:/Users/Fabia/Documents/myJava/monorepo_sistema_de_agendamento/agendamento/src/main/resources/"

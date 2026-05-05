@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface CodeRepository extends JpaRepository<CodeManager, Long> {
+
     Optional<CodeManager> findByUserId(User user);
     Optional<CodeManager> findByCode(int code);
 }

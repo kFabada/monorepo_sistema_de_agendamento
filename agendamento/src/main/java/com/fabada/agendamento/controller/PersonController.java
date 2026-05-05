@@ -1,0 +1,76 @@
+package com.fabada.agendamento.controller;
+
+
+import com.fabada.agendamento.cloud.S3ManagerImpl;
+import com.fabada.agendamento.service.PersonService;
+import com.fabada.agendamento.utils.CreateZipFile;
+import com.fabada.agendamento.utils.FileNameValidation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
+import java.lang.reflect.Array;
+import java.net.URL;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+@RestController()
+@RequestMapping("/person")
+public class PersonController {
+    private final S3ManagerImpl s3ManagerImpl;
+    private final PersonService personService;
+
+    @Value("${PATH_RESOURCES}")
+    private String resourcePath;
+
+    public PersonController(S3ManagerImpl s3ManagerImpl, PersonService personService) {
+        this.s3ManagerImpl = s3ManagerImpl;
+        this.personService = personService;
+    }
+
+    @GetMapping("/photo")
+    public ResponseEntity<?> uploadPhoto(List<MultipartFile> file) {
+        if(file.isEmpty()) throw new IllegalArgumentException();
+
+        s3ManagerImpl.upload(file);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<?> download(@RequestParam("fileName") String fileName){
+        List<String> file = new FileNameValidation(fileName).toList();
+
+        s3ManagerImpl.download(file);
+        CreateZipFile zip = new CreateZipFile(file);
+        zip.toZip();
+
+        return ResponseEntity
+                .ok()
+                .header("Content-Disposition", "attachment; filename=" + zip.getName() )
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .cacheControl(CacheControl.maxAge(Duration.of(5, ChronoUnit.MINUTES)))
+                .body(zip.getByte());
+    }
+
+    @GetMapping("/generator-url/{fileName}")
+    public ResponseEntity<?> FileUrl(@PathVariable String fileName){
+        List<String> file = new FileNameValidation(fileName).toList();
+
+        HashMap<String, URL> urls = s3ManagerImpl.generatorImageURL(file);
+        return ResponseEntity.ok().body(urls);
+    }
+
+
+
+
+}
