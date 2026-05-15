@@ -1,0 +1,110 @@
+HV000001: Hibernate Validator 9.0.1.Final
+Starting AgendamentoApplication using Java 21.0.10 with PID 14080 (C:\Users\Fabia\Documents\myJava\monorepo_sistema_de_agendamento\agendamento\target\classes started by Fabia in C:\Users\Fabia\Documents\myJava\monorepo_sistema_de_agendamento)
+No active profile set, falling back to 1 default profile: "default"
+Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+Multiple Spring Data modules found, entering strict repository configuration mode
+Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.fabada.agendamento.repository.CodeRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.fabada.agendamento.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+Finished Spring Data repository scanning in 29 ms. Found 0 JDBC repository interfaces.
+Multiple Spring Data modules found, entering strict repository configuration mode
+Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+Finished Spring Data repository scanning in 32 ms. Found 2 JPA repository interfaces.
+Tomcat initialized with port 9090 (http)
+Initializing ProtocolHandler ["http-nio-9090"]
+Starting service [Tomcat]
+Starting Servlet engine: [Apache Tomcat/11.0.15]
+Root WebApplicationContext: initialization completed in 1793 ms
+HHH008540: Processing PersistenceUnitInfo [name: default]
+HHH000001: Hibernate ORM core version 7.2.1.Final
+No LoadTimeWeaver setup: ignoring JPA class transformer
+HikariPool-1 - Starting...
+HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@72b7ecb7
+HikariPool-1 - Start completed.
+HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamento]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: agendamento/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Initialized JPA EntityManagerFactory for persistence unit 'default'
+Hibernate is in classpath; If applicable, HQL parser will be used.
+spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+Exposing 1 endpoint beneath base path '/actuator'
+Starting ProtocolHandler ["http-nio-9090"]
+Tomcat started on port 9090 (http) with context path '/'
+Started AgendamentoApplication in 6.295 seconds (process running for 7.157)
+Initializing Spring DispatcherServlet 'dispatcherServlet'
+Initializing Servlet 'dispatcherServlet'
+Completed initialization in 1 ms
+file multipart null `teste`
+teste qualquer
+Commencing graceful shutdown. Waiting for active requests to complete
+Graceful shutdown complete
+Closing JPA EntityManagerFactory for persistence unit 'default'
+HikariPool-1 - Shutdown initiated...
+HikariPool-1 - Shutdown completed.
+HV000001: Hibernate Validator 9.0.1.Final
+Starting AgendamentoApplication using Java 21.0.10 with PID 8792 (C:\Users\Fabia\Documents\myJava\monorepo_sistema_de_agendamento\agendamento\target\classes started by Fabia in C:\Users\Fabia\Documents\myJava\monorepo_sistema_de_agendamento)
+No active profile set, falling back to 1 default profile: "default"
+Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+Multiple Spring Data modules found, entering strict repository configuration mode
+Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.fabada.agendamento.repository.CodeRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.fabada.agendamento.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+Finished Spring Data repository scanning in 26 ms. Found 0 JDBC repository interfaces.
+Multiple Spring Data modules found, entering strict repository configuration mode
+Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+Finished Spring Data repository scanning in 28 ms. Found 2 JPA repository interfaces.
+Tomcat initialized with port 9090 (http)
+Initializing ProtocolHandler ["http-nio-9090"]
+Starting service [Tomcat]
+Starting Servlet engine: [Apache Tomcat/11.0.15]
+Root WebApplicationContext: initialization completed in 1799 ms
+HHH008540: Processing PersistenceUnitInfo [name: default]
+HHH000001: Hibernate ORM core version 7.2.1.Final
+No LoadTimeWeaver setup: ignoring JPA class transformer
+HikariPool-1 - Starting...
+HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@72b7ecb7
+HikariPool-1 - Start completed.
+HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/agendamento]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: agendamento/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Initialized JPA EntityManagerFactory for persistence unit 'default'
+Hibernate is in classpath; If applicable, HQL parser will be used.
+spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+Exposing 1 endpoint beneath base path '/actuator'
+Starting ProtocolHandler ["http-nio-9090"]
+Tomcat started on port 9090 (http) with context path '/'
+Started AgendamentoApplication in 6.097 seconds (process running for 6.922)
+Initializing Spring DispatcherServlet 'dispatcherServlet'
+Initializing Servlet 'dispatcherServlet'
+Completed initialization in 1 ms
+Commencing graceful shutdown. Waiting for active requests to complete
+Graceful shutdown complete
+Closing JPA EntityManagerFactory for persistence unit 'default'
+HikariPool-1 - Shutdown initiated...
+HikariPool-1 - Shutdown completed.
