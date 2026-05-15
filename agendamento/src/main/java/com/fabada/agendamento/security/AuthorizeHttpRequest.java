@@ -35,7 +35,9 @@ public class AuthorizeHttpRequest {
                                 .requestMatchers(
                                         "/user/register",
                                         "/code/generation",
-                                        "/user/password_update"
+                                        "/user/password_update",
+                                        "/actuator/health",
+                                        "/person/**"
                                 )
                                 .permitAll()
                 )
